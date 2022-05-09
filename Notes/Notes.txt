@@ -1,0 +1,26 @@
+Survival-Zombie Waves
+
+FPS Mechanics, Co-op Multiplayer
+
+Gameplay
+
+Key drops and rarity
+Gold, Silver, Bronze
+
+Keep Looting simple
+Loot on zombies before despawn
+mind matierals for crafting instead of mining of gathering it
+
+Craftable items - Needing craftable Matierals
+Barracades Spots
+Ammo (maybe)
+Medical stuff (maybe)
+
+Map
+Size to tranzit
+Load all assest and use LOD's
+Level Streaming is possible
+
+Enemies
+Limbs to pop and burst
+Rag doll effect
