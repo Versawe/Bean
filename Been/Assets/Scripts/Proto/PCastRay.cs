@@ -28,7 +28,10 @@ public class PCastRay : MonoBehaviour
         //Checks if the player is looking at anything, right now just prints the game object's name as an example
         if (Physics.Raycast(pRay.origin, pRay.direction, out rayHit, sightDistance))
         {
-            print(rayHit.collider.transform.name);
+            if(rayHit.collider.gameObject.tag == "Barrier") 
+            {
+                rayHit.collider.gameObject.GetComponent<BarrierClass>().BeingLookedAt();
+            }
         }
     }
 
