@@ -7,6 +7,9 @@ public class PCastRay : MonoBehaviour
     Ray pRay;
     RaycastHit rayHit;
     private float sightDistance = 2.25f;
+
+    private GameObject tempObj;
+    private bool IsActive = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,18 +22,33 @@ public class PCastRay : MonoBehaviour
         //updates raycast's orgin and direction constantly
         UpdateRaycast();
 
+        if (IsActive && tempObj) CheckInteract(tempObj);
+        //CastRay();
+
         //debugs ray for in editor view
         Debug.DrawRay(pRay.origin, pRay.direction, Color.red);
     }
 
     private void FixedUpdate()
     {
+        CastRay();
+    }
+
+    private void CastRay()
+    {
         //Checks if the player is looking at anything, right now just prints the game object's name as an example
         if (Physics.Raycast(pRay.origin, pRay.direction, out rayHit, sightDistance))
         {
-            if(rayHit.collider.gameObject.tag == "Barrier") 
+            if (rayHit.collider.gameObject.tag == "Barrier")
             {
                 rayHit.collider.gameObject.GetComponent<BarrierClass>().BeingLookedAt();
+                IsActive = true;
+                tempObj = rayHit.collider.gameObject;
+            }
+            else 
+            {
+                IsActive = false;
+                tempObj = null;
             }
         }
     }
@@ -41,5 +59,14 @@ public class PCastRay : MonoBehaviour
         //origin is camera location, direction is forward vector (Z)
         pRay.origin = transform.position;
         pRay.direction = transform.forward;
+    }
+
+    private void CheckInteract(GameObject currObj)
+    {
+        if (Input.GetButtonDown("Interact") && currObj.GetComponent<BarrierClass>().status == "Hover")
+        {
+            currObj.GetComponent<BarrierClass>().TriggerMatSwitch(2);
+            print("work");
+        }
     }
 }

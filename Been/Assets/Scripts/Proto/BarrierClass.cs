@@ -42,7 +42,7 @@ public class BarrierClass : MonoBehaviour
 
     private void DeactivateHover()
     {
-        if (!IsLookedAt) return;
+        if (!IsLookedAt && status != "Filled") return;
         lookTimer -= 1 * Time.deltaTime;
         if(lookTimer <= 0) 
         {
@@ -53,16 +53,14 @@ public class BarrierClass : MonoBehaviour
 
     }
 
-    private void TriggerMatSwitch(int ele) 
+    public void TriggerMatSwitch(int ele)
     {
-        for (int i = 0; i < statusOptions.Count - 1; i++) 
+        for (int i = 0; i < statusOptions.Count - 1; i++)
         {
             if(i == ele) 
             {
                 status = statusOptions[ele];
                 mr.material = mats[ele];
-                print(i);
-                print(ele);
             }
         }
     }
