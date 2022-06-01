@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class PCastRay : MonoBehaviour
 {
+    //ray varibales
     Ray pRay;
     RaycastHit rayHit;
     private float sightDistance = 2.25f;
 
+    //temp vars for Objs being looked at
     private GameObject tempObj;
     private bool IsActive = false;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -22,10 +19,11 @@ public class PCastRay : MonoBehaviour
         //updates raycast's orgin and direction constantly
         UpdateRaycast();
 
+        //Calls CheckInteract only if conditions are met
         if (IsActive && tempObj) CheckInteract(tempObj);
         //CastRay();
 
-        //debugs ray for in editor view
+        //debugs ray for in-editor view
         Debug.DrawRay(pRay.origin, pRay.direction, Color.red);
     }
 
@@ -39,13 +37,13 @@ public class PCastRay : MonoBehaviour
         //Checks if the player is looking at anything, right now just prints the game object's name as an example
         if (Physics.Raycast(pRay.origin, pRay.direction, out rayHit, sightDistance))
         {
-            if (rayHit.collider.gameObject.tag == "Barrier")
+            if (rayHit.collider.gameObject.tag == "Barrier") //if player is looking at a barrier
             {
                 if(rayHit.collider.gameObject.GetComponent<BarrierClass>().status != "Filled") rayHit.collider.gameObject.GetComponent<BarrierClass>().BeingLookedAt();
                 IsActive = true;
                 tempObj = rayHit.collider.gameObject;
             }
-            else 
+            else //resets values
             {
                 IsActive = false;
                 tempObj = null;
@@ -61,15 +59,17 @@ public class PCastRay : MonoBehaviour
         pRay.direction = transform.forward;
     }
 
+    //Checks interactions when player looks at an object and clicks a button
     private void CheckInteract(GameObject currObj)
     {
-        if (Input.GetButtonDown("Interact") && currObj.GetComponent<BarrierClass>().status == "Hover")
+        //logic for if the object is a barrier
+        if (Input.GetButtonDown("Interact") && currObj.GetComponent<BarrierClass>().status == "Hover") // builds barrier with interact
         {
-            currObj.GetComponent<BoxCollider>().isTrigger = false;
-            currObj.GetComponent<MeshRenderer>().material = currObj.GetComponent<BarrierClass>().mats[2];
-            currObj.GetComponent<BarrierClass>().status = "Filled";
             currObj.GetComponent<BarrierClass>().TriggerMatSwitch(2);
-            print("work");
+        }
+        else if (Input.GetButtonDown("Interact2") && currObj.GetComponent<BarrierClass>().status == "Filled") // unbuilds barrier with interact2
+        {
+            currObj.GetComponent<BarrierClass>().TriggerMatSwitch(1);
         }
     }
 }
