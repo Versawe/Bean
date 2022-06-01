@@ -21,9 +21,12 @@ public class BarrierClass : MonoBehaviour
 
     MeshRenderer mr;
 
+    BoxCollider bc;
+
     private void Awake()
     {
         mr = GetComponent<MeshRenderer>();
+        bc = GetComponent<BoxCollider>();
         mr.material = mats[0];
     }
 
@@ -42,7 +45,8 @@ public class BarrierClass : MonoBehaviour
 
     private void DeactivateHover()
     {
-        if (!IsLookedAt && status != "Filled") return;
+        if (!IsLookedAt) return;
+        if (status == statusOptions[2]) return;
         lookTimer -= 1 * Time.deltaTime;
         if(lookTimer <= 0) 
         {
@@ -50,6 +54,7 @@ public class BarrierClass : MonoBehaviour
             TriggerMatSwitch(0);
             lookTimer = 0.05f;
         }
+        print("This should not trigger");
 
     }
 

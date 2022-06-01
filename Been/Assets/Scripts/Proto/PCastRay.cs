@@ -41,7 +41,7 @@ public class PCastRay : MonoBehaviour
         {
             if (rayHit.collider.gameObject.tag == "Barrier")
             {
-                rayHit.collider.gameObject.GetComponent<BarrierClass>().BeingLookedAt();
+                if(rayHit.collider.gameObject.GetComponent<BarrierClass>().status != "Filled") rayHit.collider.gameObject.GetComponent<BarrierClass>().BeingLookedAt();
                 IsActive = true;
                 tempObj = rayHit.collider.gameObject;
             }
@@ -65,6 +65,9 @@ public class PCastRay : MonoBehaviour
     {
         if (Input.GetButtonDown("Interact") && currObj.GetComponent<BarrierClass>().status == "Hover")
         {
+            currObj.GetComponent<BoxCollider>().isTrigger = false;
+            currObj.GetComponent<MeshRenderer>().material = currObj.GetComponent<BarrierClass>().mats[2];
+            currObj.GetComponent<BarrierClass>().status = "Filled";
             currObj.GetComponent<BarrierClass>().TriggerMatSwitch(2);
             print("work");
         }
