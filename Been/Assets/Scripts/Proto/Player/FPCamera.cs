@@ -31,7 +31,10 @@ public class FPCamera : MonoBehaviour
         charMoveScript = GetComponentInParent<FPController>();
         StartLocalPosition = transform.localPosition;
         StartLocalRotation = transform.localRotation;
+    }
 
+    private void Start()
+    {
         Cursor.lockState = CursorLockMode.Locked;
     }
 
