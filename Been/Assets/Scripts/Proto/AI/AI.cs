@@ -5,14 +5,20 @@ using UnityEngine.AI;
 
 public class AI : MonoBehaviour
 {
+    //Ray for Vision
     Ray aiRay;
     RaycastHit rayHit;
     float sightDistance = 2f;
 
+    //important vars
+    public string state = "";
+
     [SerializeField]
     private Transform playerLoc;
 
+    //Component Vars
     NavMeshAgent nm;
+    GameObject DestroyObj = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +26,7 @@ public class AI : MonoBehaviour
 
         nm = GetComponent<NavMeshAgent>();
 
+        state = "Chase";
         //ChasePlayer();
     }
 
@@ -27,14 +34,26 @@ public class AI : MonoBehaviour
     void Update()
     {
         UpdateRay();
-        ChasePlayer();
-
         Debug.DrawRay(aiRay.origin, aiRay.direction);
+
+        ConfigureStates();
     }
 
     private void FixedUpdate()
     {
         CastRay();
+    }
+
+    private void ConfigureStates()
+    {
+        if (state == "Chase") 
+        {
+            ChasePlayer();
+        }
+        else if (state == "Destroy") 
+        {
+            nm.isStopped = true;
+        }
     }
 
     private void ChasePlayer()
@@ -64,7 +83,26 @@ public class AI : MonoBehaviour
         {
             if (rayHit.collider.gameObject.GetComponent<BarrierClass>()) 
             {
-                print("A Barrier");
+                BarrierClass bar = rayHit.collider.gameObject.GetComponent<BarrierClass>();
+
+                if (bar.status == "Null" || bar.status == "Hover") 
+                {
+                    DestroyObj = null;
+                }
+                else 
+                {
+                    state = "Destroy";
+                    DestroyObj = bar.gameObject;
+                }
+            }
+            else 
+            {
+                DestroyObj = null;
+            }
+
+            if(rayHit.collider.gameObject.tag == "Player") 
+            {
+                state = "Chase";
             }
         }
     }
