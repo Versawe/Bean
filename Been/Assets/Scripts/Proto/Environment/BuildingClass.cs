@@ -8,7 +8,7 @@ public class BuildingClass : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Barrier")) 
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Barrier"))
         {
             barriers.Add(obj);
         }

@@ -24,6 +24,8 @@ public class AI : MonoBehaviour
     {
         playerLoc = GameObject.FindGameObjectWithTag("Player").transform;
 
+        //float distance = Vector3.Distance(transform.position, playerLoc);
+
         nm = GetComponent<NavMeshAgent>();
 
         state = "Chase";
@@ -88,6 +90,7 @@ public class AI : MonoBehaviour
                 if (bar.status == "Null" || bar.status == "Hover") 
                 {
                     DestroyObj = null;
+                    state = "Chase";
                 }
                 else 
                 {
