@@ -61,3 +61,6 @@ crashlytics-build.properties
 
 # Ignore these Folders
 Library/
+Been/Logs/
+
+Been/UserSettings/
